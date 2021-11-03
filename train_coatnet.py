@@ -45,7 +45,7 @@ dataloaders = {
 
 
 # Init CoAtNet model
-model = coatnet_4()
+model = coatnet_4().cuda()
 loss_fn = nn.CrossEntropyLoss()
 # Define Optimizer
 optimizer = torch.optim.Adam(
@@ -72,8 +72,8 @@ for eid in range(epochs):
     for i, (inputs, targets) in enumerate(dataloaders["train"]):
         # Train model
         model.train()
-        outputs = model(inputs)
-        loss = loss_fn(outputs, targets)
+        outputs = model(inputs.cuda())
+        loss = loss_fn(outputs, targets.cuda())
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()   
@@ -86,7 +86,7 @@ for eid in range(epochs):
         correct = 0
         total = 0
         for i, (inputs, targets) in enumerate(dataloaders["val"]):
-            outputs = model(inputs)
+            outputs = model(inputs.cuda())
             _, predicted = torch.max(outputs.data, 1)
             total += targets.size(0)
             correct += (predicted == targets).sum().item()
