@@ -7,7 +7,6 @@ import pretty_errors
 from icecream import ic
 from coatnet import coatnet_0, coatnet_1, coatnet_2, coatnet_3, coatnet_4, count_parameters
 
-dataset_root = osp.expanduser("~/data/imagenet1k")
 epochs = 100
 
 # ImageNet standard transform
@@ -26,13 +25,15 @@ transform = transforms.Compose([
 
 # Define datasets and dataloaders
 # ImageNet1K Dataset
+# dataset_root = osp.expanduser("~/data/imagenet1k")
 # datasets = {
 #     split: ImageNet(root=dataset_root, split=split, transform=transform)
 #     for split in ["train", "val"]
 # }
 # CIFAR100 Dataset
+dataset_root = osp.expanduser("~/data/cifar100")
 datasets = {
-    split: CIFAR100(root=dataset_root, split=split, transform=transform)
+    split: CIFAR100(root=dataset_root, split=split, transform=transform, download=True)
     for split in ["train", "val"]
 }
 dataloaders = {
