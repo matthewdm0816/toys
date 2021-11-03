@@ -33,7 +33,7 @@ transform = transforms.Compose([
 # CIFAR100 Dataset
 dataset_root = osp.expanduser("~/data/cifar100")
 datasets = {
-    split: CIFAR100(root=dataset_root, split=split, transform=transform, download=True)
+    split: CIFAR100(root=dataset_root, train=(split == "train"), transform=transform, download=True)
     for split in ["train", "val"]
 }
 dataloaders = {
