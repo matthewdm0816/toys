@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from torchvision.datasets import ImageNet
+from torchvision.datasets import ImageNet, CIFAR10, CIFAR100
 import os.path as osp
 import torchvision.transforms as transforms
 import pretty_errors
@@ -25,8 +25,14 @@ transform = transforms.Compose([
 
 
 # Define datasets and dataloaders
+# ImageNet1K Dataset
+# datasets = {
+#     split: ImageNet(root=dataset_root, split=split, transform=transform)
+#     for split in ["train", "val"]
+# }
+# CIFAR100 Dataset
 datasets = {
-    split: ImageNet(root=dataset_root, split=split, transform=transform)
+    split: CIFAR100(root=dataset_root, split=split, transform=transform)
     for split in ["train", "val"]
 }
 dataloaders = {
