@@ -1,0 +1,8 @@
+*.gif
+*.png
+*.pt
+runs/
+FashionMNIST/
+.ipynb_checkpoints/
+optimizer-visualization/
+predictions/

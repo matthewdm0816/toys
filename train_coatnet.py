@@ -69,6 +69,8 @@ print(f"Total batches: {total_batches}")
 for eid in range(epochs):
     # Logging
     print("Epoch {}".format(eid))
+    # Set batch time counters
+    batch_time = 0
     for i, (inputs, targets) in enumerate(dataloaders["train"]):
         # Train model
         model.train()
@@ -80,6 +82,10 @@ for eid in range(epochs):
         # Logging
         if i % 50 == 0:
             print("Training loss: {}".format(loss.item()))
+            # print elapsed time
+            elapsed = batch_time / 50
+            
+
     # Validate model
     model.eval()
     with torch.no_grad():
