@@ -6,3 +6,5 @@ FashionMNIST/
 .ipynb_checkpoints/
 optimizer-visualization/
 predictions/
+UER-py/
+*.txt
