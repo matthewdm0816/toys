@@ -57,7 +57,7 @@ for filename in tqdm(filenames):
 ic(len(sentences_total))
 ic(sum(map(len, sentences_total)))
 # Save sentences
-with open("sentences.txt", "w", encoding="utf-8") as f:
+with open("UER-py/corpora/scifi.txt", "w", encoding="utf-8") as f:
     for sentences in sentences_total:
         for sentence in sentences:
             f.write(sentence + "\n")
