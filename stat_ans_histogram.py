@@ -3,6 +3,9 @@ import pickle
 import datasets
 import torch 
 from icecream import ic
+import numpy as np
+from matplotlib import pyplot as plt
+import math
 parser = ArgumentParser()
 parser.add_argument(
     "--lbl2idx_path",
@@ -13,6 +16,9 @@ parser.add_argument(
     "--dataset_path",
     type=str,
     default="/home/yangliu/data/vqav2/processed_tokenized_separate_top3k_full",
+)
+parser.add_argument(
+    "--histogram_path", type=str, default="histogram.png"
 )
 
 args = parser.parse_args()
@@ -52,3 +58,42 @@ answer_count = {
 }
 
 ic(answer_count)
+
+nans = len(answer_count)
+
+answer_prob = sorted(list(answer_count.items()), key=lambda t: t[-1], reverse=True)
+ic(answer_prob)
+
+def get_percentage(ns, k: int):
+    return sum(ns[:k]) / sum(ns)
+
+ns = [t[1] for t in answer_prob]
+for k in [10, 50, 100, 200, 500, 1000, 1500, 2000]:
+    ic(get_percentage(ns, k=k))    
+
+xs = sum([[i] * t[-1] for i, t in enumerate(answer_prob)], start=[])
+xs = np.array(xs)
+# draw histogram
+plt.hist(xs, bins=nans)
+# save histogram image
+plt.savefig(args.histogram_path, dpi=300)
+
+xs = xs.max() - xs + 1
+ic(xs[:100], len(xs))
+
+def hill_estimator(xs, k: int):
+    return (np.log(xs[:k]).sum() / k - np.log(xs[k])) ** (-1)
+
+ic(hill_estimator(xs, k=10))
+ic(hill_estimator(xs, k=100))
+ic(hill_estimator(xs, k=1000))
+ic(hill_estimator(xs, k=len(xs) // 10))
+ic(hill_estimator(xs, k=len(xs) // 6))
+ic(hill_estimator(xs, k=len(xs) // 5))
+ic(hill_estimator(xs, k=len(xs) // 4))
+ic(hill_estimator(xs, k=len(xs) // 3))
+ic(hill_estimator(xs, k=len(xs) // 2))
+ic(hill_estimator(xs, k=math.floor(len(xs) * 0.75)))
+
+
+
